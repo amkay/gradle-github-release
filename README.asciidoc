@@ -1,10 +1,10 @@
 = gradle-github-release
 Max Käufer;
-:version:
-:doc-version:
-:doc-path:
-:download-version:
-:download-path:
+:version: 0.0.0
+:doc-version: dev
+:doc-path: https://amkay.github.io/gradle-github-release/develop/doc
+:download-version: dev
+:download-path: https://github.com/amkay/gradle-github-release/tree/gh-pages/develop
 :doctype: book
 :sectanchors:
 :sectlinks:
