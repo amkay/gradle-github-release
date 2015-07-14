@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.amkay.gradle.github.release
+package com.github.amkay.gradle.github.release.task
 
-import com.github.amkay.gradle.github.release.task.ReleaseTask
-import org.gradle.api.Plugin
-import org.gradle.api.Project
+import org.gradle.api.DefaultTask
 
 /**
  * TODO
  *
  * @author Max Käufer
  */
-class GithubReleasePlugin implements Plugin<Project> {
-
-    @Override
-    void apply(final Project project) {
-        project.tasks.create "githubRelease", ReleaseTask
-    }
+class ReleaseTask extends DefaultTask {
 
 }
