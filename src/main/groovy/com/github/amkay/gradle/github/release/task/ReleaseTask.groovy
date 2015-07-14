@@ -24,4 +24,14 @@ import org.gradle.api.DefaultTask
  */
 class ReleaseTask extends DefaultTask {
 
+    @Override
+    String getGroup() {
+        'publishing'
+    }
+
+    @Override
+    String getDescription() {
+        'Publishes artifacts to GitHub.'
+    }
+
 }
