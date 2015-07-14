@@ -1,0 +1,64 @@
+= gradle-github-release
+Max Käufer;
+:version:
+:doc-version:
+:doc-path:
+:download-version:
+:download-path:
+:doctype: book
+:sectanchors:
+:sectlinks:
+:source-highlighter: highlightjs
+:icons: font
+
+
+image:https://img.shields.io/badge/download-{download-version}-blue.svg["Download", link="{download-path}"]
+image:https://img.shields.io/badge/docs-{doc-version}-blue.svg["Documentation", link="{doc-path}/groovydoc"]
+image:http://stillmaintained.com/amkay/gradle-github-release.svg["Project Status", link="https://stillmaintained.com/amkay/gradle-github-release"]
+image:https://img.shields.io/github/license/amkay/gradle-github-release.svg["License", link="https://github.com/amkay/gradle-github-release/blob/master/LICENSE.md"]
+image:https://travis-ci.org/amkay/gradle-github-release.svg?branch=develop["Build Status", link="https://travis-ci.org/amkay/gradle-github-release"]
+//image:https://www.versioneye.com/user/projects/{project-id}/badge.svg?style=flat["Dependency Status", link="https://www.versioneye.com/user/projects/{project-id}"]
+image:https://img.shields.io/badge/semver-2.0.0-blue.svg["Semantic Versioning", link="http://semver.org/spec/v2.0.0.html"]
+image:https://img.shields.io/badge/git-flow-blue.svg["Gitflow", link="http://nvie.com/posts/a-successful-git-branching-model/"]
+
+A https://gradle.org/[Gradle] plugin that uploads build artifacts into https://github.com[GitHub] releases.
+
+
+
+[[usage]]
+== Usage
+
+Include the following in the project on which you want to apply the plugin:
+
+[source,groovy,subs="attributes"]
+----
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'com.github.amkay:gradle-github-release:{version}'
+  }
+}
+
+apply plugin: 'com.github.amkay.github-release'
+----
+
+NOTE: The latest build of the current development version can always be obtained from https://github.com/amkay/gradle-github-release/tree/gh-pages/develop[here].
+
+
+[[configuration]]
+=== Configuration
+
+The plugin registers an extension object named `githubRelease` that is the entry point to the configuration.
+It also provides a DSL for keyword-based configuration, but configuration via properties is also possible.
+The following example shows all configuration options:
+
+[source,groovy]
+----
+githubRelease {
+  // TODO
+}
+----
+
