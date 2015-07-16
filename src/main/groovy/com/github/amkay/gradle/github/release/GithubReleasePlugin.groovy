@@ -15,6 +15,7 @@
  */
 package com.github.amkay.gradle.github.release
 
+import com.github.amkay.gradle.github.release.dsl.GithubReleaseExtension
 import com.github.amkay.gradle.github.release.task.ReleaseTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -28,6 +29,7 @@ class GithubReleasePlugin implements Plugin<Project> {
 
     @Override
     void apply(final Project project) {
+        project.extensions.create 'githubRelease', GithubReleaseExtension
         project.tasks.create "githubRelease", ReleaseTask
     }
 
