@@ -7,7 +7,13 @@ package com.github.amkay.gradle.github.release.dsl
  */
 class GithubReleaseExtension {
 
+    String user
     String apiKey
+
+
+    void user(final String user) {
+        this.user = user
+    }
 
     void apiKey(final String apiKey) {
         this.apiKey = apiKey
