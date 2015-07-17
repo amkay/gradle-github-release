@@ -23,6 +23,8 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
+
+    compile 'com.jcabi:jcabi-github:0.23'
 }
 
 targetCompatibility = vJavaLang
