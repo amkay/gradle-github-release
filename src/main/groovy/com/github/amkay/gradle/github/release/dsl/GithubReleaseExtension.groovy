@@ -7,6 +7,9 @@ package com.github.amkay.gradle.github.release.dsl
  */
 class GithubReleaseExtension {
 
+    static final String NAME = 'githubRelease'
+   
+
     String user
     String apiKey
 
