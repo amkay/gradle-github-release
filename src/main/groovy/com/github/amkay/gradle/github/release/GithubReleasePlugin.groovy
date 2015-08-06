@@ -30,7 +30,7 @@ class GithubReleasePlugin implements Plugin<Project> {
     @Override
     void apply(final Project project) {
         project.extensions.create GithubReleaseExtension.NAME, GithubReleaseExtension
-        def task = project.tasks.create "githubRelease", ReleaseTask
+        def task = project.tasks.create ReleaseTask.NAME, ReleaseTask
         task.dependsOn project.tasks[ 'jar' ]
     }
 

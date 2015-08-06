@@ -28,6 +28,9 @@ import org.kohsuke.github.GitHub
  */
 class ReleaseTask extends DefaultTask {
 
+    static String NAME = 'githubRelease'
+
+
     @TaskAction
     void release() {
         def extension = project.extensions[ GithubReleaseExtension.NAME ] as GithubReleaseExtension
