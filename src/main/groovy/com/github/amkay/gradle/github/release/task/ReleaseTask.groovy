@@ -15,7 +15,11 @@
  */
 package com.github.amkay.gradle.github.release.task
 
+import com.github.amkay.gradle.github.release.dsl.GithubReleaseExtension
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.TaskAction
+import org.kohsuke.github.GHRelease
+import org.kohsuke.github.GitHub
 
 /**
  * TODO
@@ -23,6 +27,17 @@ import org.gradle.api.DefaultTask
  * @author Max Käufer
  */
 class ReleaseTask extends DefaultTask {
+
+    @TaskAction
+    void release() {
+        def extension = project.extensions[ 'githubRelease' ] as GithubReleaseExtension
+        def github = GitHub.connectUsingOAuth extension.apiKey
+        def repo = github.getRepository "${extension.user}/${project.name}"
+        def releases = repo.listReleases()
+        def release = releases.find { it.tagName == "v${project.version}".toString() } as GHRelease
+
+        project.tasks[ 'jar' ].outputs.files.each { release.uploadAsset it, 'application/java-archive' }
+    }
 
     @Override
     String getGroup() {
