@@ -23,6 +23,8 @@ import org.gradle.api.tasks.TaskAction
 import org.kohsuke.github.GHRelease
 import org.kohsuke.github.GitHub
 
+import java.nio.file.Files
+
 /**
  * TODO
  *
@@ -46,7 +48,8 @@ class ReleaseTask extends DefaultTask {
 
         extension.workingDir.eachFile { file ->
             LOGGER.lifecycle "Uploading ${file.name} to GitHub"
-            release.uploadAsset file, 'application/java-archive'
+            def mimeType = Files.probeContentType file.toPath()
+            release.uploadAsset file, mimeType
         }
     }
 
