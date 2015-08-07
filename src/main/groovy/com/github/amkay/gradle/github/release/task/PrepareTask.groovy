@@ -17,50 +17,30 @@ package com.github.amkay.gradle.github.release.task
 
 import com.github.amkay.gradle.github.release.dsl.GithubReleaseExtension
 import org.gradle.api.DefaultTask
-import org.gradle.api.logging.Logger
-import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.TaskAction
-import org.kohsuke.github.GHRelease
-import org.kohsuke.github.GitHub
-
-import java.nio.file.Files
 
 /**
  * TODO
  *
  * @author Max Käufer
  */
-class ReleaseTask extends DefaultTask {
+class PrepareTask extends DefaultTask {
 
-    static final         String NAME   = 'publishGithubRelease'
-    private static final Logger LOGGER = Logging.getLogger ReleaseTask
-
+    static final String NAME = 'prepareGithubRelease'
 
     @TaskAction
-    void release() {
+    void prepare() {
         def extension = project.extensions[ GithubReleaseExtension.NAME ] as GithubReleaseExtension
 
-        def github = GitHub.connectUsingOAuth extension.apiKey
-        def repo = github.getRepository "${extension.user}/${project.name}"
-
-        def releases = repo.listReleases()
-        def release = releases.find { it.tagName == "v${project.version}".toString() } as GHRelease
-
-        extension.workingDir.eachFile { file ->
-            LOGGER.lifecycle "Uploading ${file.name} to GitHub"
-            def mimeType = Files.probeContentType file.toPath()
-            release.uploadAsset file, mimeType
+        project.copy {
+            with extension.upload
+            into extension.workingDir
         }
     }
 
     @Override
-    String getGroup() {
-        'publishing'
-    }
-
-    @Override
     String getDescription() {
-        'Publishes artifacts to GitHub.'
+        'Prepares the artifacts to upload to GitHub locally.'
     }
 
 }
