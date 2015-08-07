@@ -15,7 +15,8 @@ class GithubReleaseExtension {
     static final         String             NAME                         = 'githubRelease'
     private static final Collection<String> DEFAULT_TASKS_TO_UPLOAD_FROM = [ 'jar',
                                                                              'sourcesJar',
-                                                                             'javadocJar' ]
+                                                                             'javadocJar',
+                                                                             'groovydocJar' ]
 
 
     protected Project project
