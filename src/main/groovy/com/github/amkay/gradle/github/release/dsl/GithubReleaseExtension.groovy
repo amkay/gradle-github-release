@@ -35,4 +35,8 @@ class GithubReleaseExtension {
         this.workingPath = workingPath
     }
 
+    File getWorkingDir() {
+        project.file workingPath
+    }
+
 }
