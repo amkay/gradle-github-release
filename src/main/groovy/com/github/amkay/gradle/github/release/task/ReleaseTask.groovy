@@ -17,6 +17,8 @@ package com.github.amkay.gradle.github.release.task
 
 import com.github.amkay.gradle.github.release.dsl.GithubReleaseExtension
 import org.gradle.api.DefaultTask
+import org.gradle.api.logging.Logger
+import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.TaskAction
 import org.kohsuke.github.GHRelease
 import org.kohsuke.github.GitHub
@@ -29,6 +31,7 @@ import org.kohsuke.github.GitHub
 class ReleaseTask extends DefaultTask {
 
     static               String NAME   = 'publishGithubRelease'
+    private static final Logger LOGGER = Logging.getLogger ReleaseTask
 
 
     @TaskAction
@@ -40,6 +43,7 @@ class ReleaseTask extends DefaultTask {
         def release = releases.find { it.tagName == "v${project.version}".toString() } as GHRelease
 
         extension.workingDir.eachFile { file ->
+            LOGGER.lifecycle "Uploading ${file.name} to GitHub"
             release.uploadAsset file, 'application/java-archive'
         }
     }
