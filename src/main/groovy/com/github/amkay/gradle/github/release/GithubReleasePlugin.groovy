@@ -16,6 +16,7 @@
 package com.github.amkay.gradle.github.release
 
 import com.github.amkay.gradle.github.release.dsl.GithubReleaseExtension
+import com.github.amkay.gradle.github.release.task.PrepareTask
 import com.github.amkay.gradle.github.release.task.ReleaseTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -30,8 +31,11 @@ class GithubReleasePlugin implements Plugin<Project> {
     @Override
     void apply(final Project project) {
         project.extensions.create GithubReleaseExtension.NAME, GithubReleaseExtension, project
-        def task = project.tasks.create ReleaseTask.NAME, ReleaseTask
-        task.dependsOn project.tasks[ 'jar' ]
+
+        def prepareTask = project.tasks.create PrepareTask.NAME, PrepareTask
+        def releaseTask = project.tasks.create ReleaseTask.NAME, ReleaseTask
+
+        releaseTask.dependsOn prepareTask, project.tasks[ 'jar' ]
     }
 
 }
