@@ -17,7 +17,8 @@ class GithubReleaseExtension {
                                                                              'sourcesJar',
                                                                              'javadocJar',
                                                                              'groovydocJar',
-                                                                             'distTar' ]
+                                                                             'distTar',
+                                                                             'distZip' ]
 
 
     protected Project project
