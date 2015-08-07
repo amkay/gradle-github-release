@@ -39,7 +39,9 @@ class ReleaseTask extends DefaultTask {
         def releases = repo.listReleases()
         def release = releases.find { it.tagName == "v${project.version}".toString() } as GHRelease
 
-        project.tasks[ 'jar' ].outputs.files.each { release.uploadAsset it, 'application/java-archive' }
+        extension.workingDir.eachFile { file ->
+            release.uploadAsset file, 'application/java-archive'
+        }
     }
 
     @Override
