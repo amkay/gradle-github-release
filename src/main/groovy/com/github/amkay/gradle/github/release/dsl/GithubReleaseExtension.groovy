@@ -14,15 +14,17 @@ class GithubReleaseExtension {
     static final String NAME = 'githubRelease'
 
 
-    private Project  project
-            String   user
-            String   apiKey
-            String   workingPath
-    final   CopySpec upload
+    private Project project
+
+          String   user
+          String   apiKey
+          String   workingPath
+    final CopySpec upload
 
 
     GithubReleaseExtension(final Project project) {
         this.project = project
+
         this.workingPath = "${project.buildDir.name}/github-release"
         this.upload = project.copySpec { from project.tasks[ 'jar' ] }
     }

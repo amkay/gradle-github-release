@@ -42,4 +42,5 @@ class PrepareTask extends DefaultTask {
     String getDescription() {
         'Prepares the artifacts to upload to GitHub locally.'
     }
+
 }
