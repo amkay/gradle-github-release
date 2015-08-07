@@ -13,7 +13,8 @@ import org.gradle.util.ConfigureUtil
 class GithubReleaseExtension {
 
     static final         String             NAME                         = 'githubRelease'
-    private static final Collection<String> DEFAULT_TASKS_TO_UPLOAD_FROM = [ 'jar' ]
+    private static final Collection<String> DEFAULT_TASKS_TO_UPLOAD_FROM = [ 'jar',
+                                                                             'sourcesJar' ]
 
 
     protected Project project
