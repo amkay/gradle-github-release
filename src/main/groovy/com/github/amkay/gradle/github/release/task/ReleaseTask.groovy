@@ -30,7 +30,7 @@ import org.kohsuke.github.GitHub
  */
 class ReleaseTask extends DefaultTask {
 
-    static               String NAME   = 'publishGithubRelease'
+    static final         String NAME   = 'publishGithubRelease'
     private static final Logger LOGGER = Logging.getLogger ReleaseTask
 
 
