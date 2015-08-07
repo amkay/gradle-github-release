@@ -26,7 +26,7 @@ import org.gradle.api.tasks.TaskAction
  */
 class PrepareTask extends DefaultTask {
 
-    static String NAME = 'prepareGithubRelease'
+    static final String NAME = 'prepareGithubRelease'
 
     @TaskAction
     void prepare() {
