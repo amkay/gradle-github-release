@@ -42,6 +42,7 @@ class GithubReleaseExtension {
           String   user
           String   apiKey
           String   repo
+          String   tagPrefix = 'v'
           String   workingPath
     final CopySpec upload
 
@@ -72,6 +73,10 @@ class GithubReleaseExtension {
 
     String getRepo() {
         repo ?: "$user/${project.name}"
+    }
+
+    void tagPrefix(final String tagPrefix) {
+        this.tagPrefix = tagPrefix
     }
 
     void workingPath(final String workingPath) {

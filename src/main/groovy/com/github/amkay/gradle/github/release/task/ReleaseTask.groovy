@@ -44,7 +44,7 @@ class ReleaseTask extends DefaultTask {
         def repo = github.getRepository extension.repo
 
         def releases = repo.listReleases()
-        def release = releases.find { it.tagName == "v${project.version}".toString() } as GHRelease
+        def release = releases.find { it.tagName == "${extension.tagPrefix}${project.version}".toString() } as GHRelease
 
         extension.workingDir.eachFile { file ->
             LOGGER.lifecycle "Uploading ${file.name} to GitHub"
