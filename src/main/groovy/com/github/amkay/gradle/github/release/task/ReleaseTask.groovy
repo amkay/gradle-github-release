@@ -48,7 +48,9 @@ class ReleaseTask extends DefaultTask {
 
         extension.workingDir.eachFile { file ->
             LOGGER.lifecycle "Uploading ${file.name} to GitHub"
+
             def mimeType = Files.probeContentType file.toPath()
+           
             release.uploadAsset file, mimeType
         }
     }
