@@ -13,6 +13,7 @@ import org.gradle.util.ConfigureUtil
 class GithubReleaseExtension {
 
     static final         String             NAME                         = 'githubRelease'
+    private static final                    DEFAULT_WORKING_DIR          = 'github-release'
     private static final Collection<String> DEFAULT_TASKS_TO_UPLOAD_FROM = [ 'jar',
                                                                              'sourcesJar',
                                                                              'javadocJar',
@@ -32,7 +33,7 @@ class GithubReleaseExtension {
     GithubReleaseExtension(final Project project) {
         this.project = project
 
-        this.workingPath = "${project.buildDir.name}/github-release"
+        this.workingPath = "${project.buildDir.name}/$DEFAULT_WORKING_DIR"
         this.upload = project.copySpec {
             defaultTasksToUploadFrom.each { task ->
                 from task
