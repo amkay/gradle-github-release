@@ -41,7 +41,7 @@ class ReleaseTask extends DefaultTask {
         def extension = project.extensions[ GithubReleaseExtension.NAME ] as GithubReleaseExtension
 
         def github = GitHub.connectUsingOAuth extension.apiKey
-        def repo = github.getRepository "${extension.user}/${project.name}"
+        def repo = github.getRepository extension.repo
 
         def releases = repo.listReleases()
         def release = releases.find { it.tagName == "v${project.version}".toString() } as GHRelease
@@ -50,7 +50,7 @@ class ReleaseTask extends DefaultTask {
             LOGGER.lifecycle "Uploading ${file.name} to GitHub"
 
             def mimeType = Files.probeContentType file.toPath()
-           
+
             release.uploadAsset file, mimeType
         }
     }

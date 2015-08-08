@@ -41,6 +41,7 @@ class GithubReleaseExtension {
 
           String   user
           String   apiKey
+          String   repo
           String   workingPath
     final CopySpec upload
 
@@ -63,6 +64,14 @@ class GithubReleaseExtension {
 
     void apiKey(final String apiKey) {
         this.apiKey = apiKey
+    }
+
+    void repo(final String repo) {
+        this.repo = repo
+    }
+
+    String getRepo() {
+        repo ?: "$user/${project.name}"
     }
 
     void workingPath(final String workingPath) {
