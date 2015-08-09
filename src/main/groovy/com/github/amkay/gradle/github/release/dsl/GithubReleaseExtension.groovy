@@ -49,7 +49,8 @@ class GithubReleaseExtension {
           String   user
           String   apiKey
           String   repository
-          String   tagPrefix = 'v'
+          String   repositoryRoot
+          String   tagPrefix
           String   workingPath
     final CopySpec upload
 
@@ -57,11 +58,7 @@ class GithubReleaseExtension {
     GithubReleaseExtension(final Project project) {
         this.project = project
 
-        String gitflowTagPrefix = getTagPrefixFromGitflowPlugin()
-
-        if (gitflowTagPrefix) {
-            tagPrefix = gitflowTagPrefix
-        }
+        repositoryRoot = project.projectDir
 
         this.workingPath = "${project.buildDir.name}/$DEFAULT_WORKING_DIR"
         this.upload = project.copySpec {
@@ -88,8 +85,20 @@ class GithubReleaseExtension {
         repository ?: "$user/${project.name}"
     }
 
+    void repositoryRoot(final String repositoryRoot) {
+        this.repositoryRoot = repositoryRoot
+    }
+
     void tagPrefix(final String tagPrefix) {
         this.tagPrefix = tagPrefix
+    }
+
+    String getTagPrefix() {
+        if (!tagPrefix) {
+            tagPrefix = getTagPrefixFromGitflowPlugin() ?: 'v'
+        }
+
+        tagPrefix
     }
 
     void workingPath(final String workingPath) {
@@ -111,7 +120,7 @@ class GithubReleaseExtension {
     }
 
     private String getTagPrefixFromGitflowPlugin() {
-        def grgit = Grgit.open dir: project.projectDir.path
+        def grgit = Grgit.open dir: repositoryRoot
         def gitflowTagPrefix = grgit.repository.jgit.repository.config.getString SECTION_GITFLOW, SUBSECTION_PREFIX,
                                                                                  KEY_VERSIONTAG
         grgit.close()
