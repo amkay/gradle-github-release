@@ -15,6 +15,7 @@
  */
 package com.github.amkay.gradle.github.release.dsl
 
+import org.ajoberstar.grgit.Grgit
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.file.CopySpec
@@ -27,7 +28,18 @@ import org.gradle.util.ConfigureUtil
  */
 class GithubReleaseExtension {
 
-    static final         String             NAME                         = 'githubRelease'
+    static final String NAME = 'githubRelease'
+
+    /**
+     * The section of Gitflow's configuration in <code>.git/config</code>
+     */
+    public static final String SECTION_GITFLOW = 'gitflow'
+
+    /**
+     * The subsection containing Gitflow's branch prefixes in <code>.git/config</code>
+     */
+    public static final String SUBSECTION_PREFIX = 'prefix'
+
     private static final                    DEFAULT_WORKING_DIR          = 'github-release'
     private static final Collection<String> DEFAULT_TASKS_TO_UPLOAD_FROM = [ 'jar',
                                                                              'sourcesJar',
@@ -49,6 +61,15 @@ class GithubReleaseExtension {
 
     GithubReleaseExtension(final Project project) {
         this.project = project
+
+        def grgit = Grgit.open dir: project.projectDir.path
+        def gitflowTagPrefix = grgit.repository.jgit.repository.config.getString SECTION_GITFLOW, SUBSECTION_PREFIX,
+                                                                                 "versiontag"
+        grgit.close()
+
+        if (gitflowTagPrefix) {
+            tagPrefix = gitflowTagPrefix
+        }
 
         this.workingPath = "${project.buildDir.name}/$DEFAULT_WORKING_DIR"
         this.upload = project.copySpec {
