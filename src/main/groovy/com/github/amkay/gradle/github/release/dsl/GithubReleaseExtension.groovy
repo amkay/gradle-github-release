@@ -58,6 +58,7 @@ class GithubReleaseExtension {
           String   repositoryRoot
           String   tagPrefix
           String   workingPath
+          String   description
     final CopySpec upload
 
 
@@ -67,6 +68,12 @@ class GithubReleaseExtension {
         repositoryRoot = project.projectDir
 
         this.workingPath = "${project.buildDir.name}/$DEFAULT_WORKING_DIR"
+
+        def descriptionFile = project.file "${project.buildDir}/docs/CHANGES.md"
+        if (descriptionFile.exists()) {
+            description descriptionFile
+        }
+
         this.upload = project.copySpec {
             defaultTasksToUploadFrom.each { task ->
                 from task
@@ -113,6 +120,14 @@ class GithubReleaseExtension {
 
     File getWorkingDir() {
         project.file workingPath
+    }
+
+    void description(final String description) {
+        this.description = description
+    }
+
+    void description(final File descriptionFile) {
+        this.description = descriptionFile.text
     }
 
     void upload(@DelegatesTo(CopySpec) final Closure cl) {

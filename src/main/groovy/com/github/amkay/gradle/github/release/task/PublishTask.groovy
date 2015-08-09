@@ -46,10 +46,20 @@ class PublishTask extends DefaultTask {
         LOGGER.info "Connecting to GitHub repository \"${extension.repository}\""
         def repository = github.getRepository extension.repository
 
+        def tagName = "${extension.tagPrefix}${project.version}"
         def releases = repository.listReleases()
-        def release = releases.find { it.tagName == "${extension.tagPrefix}${project.version}".toString() } as GHRelease
+        def release = releases.find { it.tagName == tagName.toString() } as GHRelease
 
         LOGGER.lifecycle "Found release matching project's version: ${release.tagName}"
+
+        if (release && extension.description) {
+            LOGGER.lifecycle "Description set, re-creating release."
+
+            release.delete()
+            release = repository.createRelease(tagName)
+                                .body(extension.description)
+                                .create()
+        }
 
         extension.workingDir.eachFile { file ->
             LOGGER.lifecycle "Uploading ${file.name} to GitHub"
