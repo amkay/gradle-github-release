@@ -62,10 +62,7 @@ class GithubReleaseExtension {
     GithubReleaseExtension(final Project project) {
         this.project = project
 
-        def grgit = Grgit.open dir: project.projectDir.path
-        def gitflowTagPrefix = grgit.repository.jgit.repository.config.getString SECTION_GITFLOW, SUBSECTION_PREFIX,
-                                                                                 "versiontag"
-        grgit.close()
+        String gitflowTagPrefix = getTagPrefixFromGitflowPlugin()
 
         if (gitflowTagPrefix) {
             tagPrefix = gitflowTagPrefix
@@ -116,6 +113,15 @@ class GithubReleaseExtension {
         DEFAULT_TASKS_TO_UPLOAD_FROM
           .collect { project.tasks.findByName it }
           .findAll { it }
+    }
+
+    private String getTagPrefixFromGitflowPlugin() {
+        def grgit = Grgit.open dir: project.projectDir.path
+        def gitflowTagPrefix = grgit.repository.jgit.repository.config.getString SECTION_GITFLOW, SUBSECTION_PREFIX,
+                                                                                 "versiontag"
+        grgit.close()
+       
+        gitflowTagPrefix
     }
 
 }
