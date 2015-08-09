@@ -34,6 +34,8 @@ class GithubReleaseExtension {
     private static final String SUBSECTION_PREFIX = 'prefix'
     private static final String KEY_VERSIONTAG    = 'versiontag'
 
+    private static final String DEFAULT_TAG_PREFIX = 'v'
+
     private static final DEFAULT_WORKING_DIR = 'github-release'
 
     private static final Collection<String> DEFAULT_TASKS_TO_UPLOAD_FROM = [ 'jar',
@@ -95,7 +97,7 @@ class GithubReleaseExtension {
 
     String getTagPrefix() {
         if (!tagPrefix) {
-            tagPrefix = getTagPrefixFromGitflowPlugin() ?: 'v'
+            tagPrefix = getTagPrefixFromGitflowPlugin() ?: DEFAULT_TAG_PREFIX
         }
 
         tagPrefix
