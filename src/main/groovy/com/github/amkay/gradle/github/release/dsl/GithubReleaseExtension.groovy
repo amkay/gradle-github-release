@@ -120,6 +120,10 @@ class GithubReleaseExtension {
         this.description = description
     }
 
+    void description(final File descriptionFile) {
+        this.description = descriptionFile.text
+    }
+
     void upload(@DelegatesTo(CopySpec) final Closure cl) {
         ConfigureUtil.configure cl, upload
     }
