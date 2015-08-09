@@ -15,6 +15,7 @@
  */
 package com.github.amkay.gradle.github.release.dsl
 
+import org.ajoberstar.grgit.Grgit
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.file.CopySpec
@@ -27,8 +28,16 @@ import org.gradle.util.ConfigureUtil
  */
 class GithubReleaseExtension {
 
-    static final         String             NAME                         = 'githubRelease'
-    private static final                    DEFAULT_WORKING_DIR          = 'github-release'
+    static final String NAME = 'githubRelease'
+
+    private static final String SECTION_GITFLOW   = 'gitflow'
+    private static final String SUBSECTION_PREFIX = 'prefix'
+    private static final String KEY_VERSIONTAG    = 'versiontag'
+
+    private static final String DEFAULT_TAG_PREFIX = 'v'
+
+    private static final DEFAULT_WORKING_DIR = 'github-release'
+
     private static final Collection<String> DEFAULT_TASKS_TO_UPLOAD_FROM = [ 'jar',
                                                                              'sourcesJar',
                                                                              'javadocJar',
@@ -41,13 +50,17 @@ class GithubReleaseExtension {
 
           String   user
           String   apiKey
-          String   repo
+          String   repository
+          String   repositoryRoot
+          String   tagPrefix
           String   workingPath
     final CopySpec upload
 
 
     GithubReleaseExtension(final Project project) {
         this.project = project
+
+        repositoryRoot = project.projectDir
 
         this.workingPath = "${project.buildDir.name}/$DEFAULT_WORKING_DIR"
         this.upload = project.copySpec {
@@ -66,12 +79,28 @@ class GithubReleaseExtension {
         this.apiKey = apiKey
     }
 
-    void repo(final String repo) {
-        this.repo = repo
+    void repository(final String repository) {
+        this.repository = repository
     }
 
-    String getRepo() {
-        repo ?: "$user/${project.name}"
+    String getRepository() {
+        repository ?: "$user/${project.name}"
+    }
+
+    void repositoryRoot(final String repositoryRoot) {
+        this.repositoryRoot = repositoryRoot
+    }
+
+    void tagPrefix(final String tagPrefix) {
+        this.tagPrefix = tagPrefix
+    }
+
+    String getTagPrefix() {
+        if (!tagPrefix) {
+            tagPrefix = getTagPrefixFromGitflowPlugin() ?: DEFAULT_TAG_PREFIX
+        }
+
+        tagPrefix
     }
 
     void workingPath(final String workingPath) {
@@ -90,6 +119,15 @@ class GithubReleaseExtension {
         DEFAULT_TASKS_TO_UPLOAD_FROM
           .collect { project.tasks.findByName it }
           .findAll { it }
+    }
+
+    private String getTagPrefixFromGitflowPlugin() {
+        def grgit = Grgit.open dir: repositoryRoot
+        def gitflowTagPrefix = grgit.repository.jgit.repository.config.getString SECTION_GITFLOW, SUBSECTION_PREFIX,
+                                                                                 KEY_VERSIONTAG
+        grgit.close()
+
+        gitflowTagPrefix
     }
 
 }
