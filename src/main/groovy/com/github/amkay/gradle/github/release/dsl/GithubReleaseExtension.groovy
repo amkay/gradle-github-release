@@ -30,17 +30,11 @@ class GithubReleaseExtension {
 
     static final String NAME = 'githubRelease'
 
-    /**
-     * The section of Gitflow's configuration in <code>.git/config</code>
-     */
-    public static final String SECTION_GITFLOW = 'gitflow'
+    private static final String SECTION_GITFLOW   = 'gitflow'
+    private static final String SUBSECTION_PREFIX = 'prefix'
 
-    /**
-     * The subsection containing Gitflow's branch prefixes in <code>.git/config</code>
-     */
-    public static final String SUBSECTION_PREFIX = 'prefix'
+    private static final DEFAULT_WORKING_DIR = 'github-release'
 
-    private static final                    DEFAULT_WORKING_DIR          = 'github-release'
     private static final Collection<String> DEFAULT_TASKS_TO_UPLOAD_FROM = [ 'jar',
                                                                              'sourcesJar',
                                                                              'javadocJar',
@@ -120,7 +114,7 @@ class GithubReleaseExtension {
         def gitflowTagPrefix = grgit.repository.jgit.repository.config.getString SECTION_GITFLOW, SUBSECTION_PREFIX,
                                                                                  "versiontag"
         grgit.close()
-       
+
         gitflowTagPrefix
     }
 
