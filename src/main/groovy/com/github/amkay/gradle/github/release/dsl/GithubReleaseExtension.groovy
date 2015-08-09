@@ -32,6 +32,7 @@ class GithubReleaseExtension {
 
     private static final String SECTION_GITFLOW   = 'gitflow'
     private static final String SUBSECTION_PREFIX = 'prefix'
+    private static final String KEY_VERSIONTAG    = 'versiontag'
 
     private static final DEFAULT_WORKING_DIR = 'github-release'
 
@@ -112,7 +113,7 @@ class GithubReleaseExtension {
     private String getTagPrefixFromGitflowPlugin() {
         def grgit = Grgit.open dir: project.projectDir.path
         def gitflowTagPrefix = grgit.repository.jgit.repository.config.getString SECTION_GITFLOW, SUBSECTION_PREFIX,
-                                                                                 "versiontag"
+                                                                                 KEY_VERSIONTAG
         grgit.close()
 
         gitflowTagPrefix
