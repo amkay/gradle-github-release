@@ -17,7 +17,7 @@ package com.github.amkay.gradle.github.release
 
 import com.github.amkay.gradle.github.release.dsl.GithubReleaseExtension
 import com.github.amkay.gradle.github.release.task.PrepareTask
-import com.github.amkay.gradle.github.release.task.ReleaseTask
+import com.github.amkay.gradle.github.release.task.PublishTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -33,7 +33,7 @@ class GithubReleasePlugin implements Plugin<Project> {
         def extension = project.extensions.create GithubReleaseExtension.NAME, GithubReleaseExtension, project
 
         def prepareTask = project.tasks.create PrepareTask.NAME, PrepareTask
-        def releaseTask = project.tasks.create ReleaseTask.NAME, ReleaseTask
+        def releaseTask = project.tasks.create PublishTask.NAME, PublishTask
 
         releaseTask.dependsOn prepareTask
         extension.defaultTasksToUploadFrom.each { task ->

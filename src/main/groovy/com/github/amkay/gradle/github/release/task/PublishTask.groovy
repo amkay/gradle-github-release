@@ -30,15 +30,15 @@ import java.nio.file.Files
  *
  * @author Max Käufer
  */
-class ReleaseTask extends DefaultTask {
+class PublishTask extends DefaultTask {
 
     static final String NAME = 'publishGithubRelease'
 
-    private static final Logger LOGGER = Logging.getLogger ReleaseTask
+    private static final Logger LOGGER = Logging.getLogger PublishTask
 
 
     @TaskAction
-    void release() {
+    void publish() {
         def extension = project.extensions[ GithubReleaseExtension.NAME ] as GithubReleaseExtension
 
         def github = GitHub.connectUsingOAuth extension.apiKey
