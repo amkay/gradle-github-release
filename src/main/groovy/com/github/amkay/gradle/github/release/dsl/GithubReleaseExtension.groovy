@@ -58,6 +58,7 @@ class GithubReleaseExtension {
           String   repositoryRoot
           String   tagPrefix
           String   workingPath
+          String   description
     final CopySpec upload
 
 
@@ -113,6 +114,10 @@ class GithubReleaseExtension {
 
     File getWorkingDir() {
         project.file workingPath
+    }
+
+    void description(final String description) {
+        this.description = description
     }
 
     void upload(@DelegatesTo(CopySpec) final Closure cl) {
