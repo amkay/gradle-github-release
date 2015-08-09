@@ -19,6 +19,8 @@ import org.ajoberstar.grgit.Grgit
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.file.CopySpec
+import org.gradle.api.logging.Logger
+import org.gradle.api.logging.Logging
 import org.gradle.util.ConfigureUtil
 
 /**
@@ -29,6 +31,8 @@ import org.gradle.util.ConfigureUtil
 class GithubReleaseExtension {
 
     static final String NAME = 'githubRelease'
+
+    private static final Logger LOGGER = Logging.getLogger GithubReleaseExtension
 
     private static final String SECTION_GITFLOW   = 'gitflow'
     private static final String SUBSECTION_PREFIX = 'prefix'
@@ -126,6 +130,8 @@ class GithubReleaseExtension {
         def gitflowTagPrefix = grgit.repository.jgit.repository.config.getString SECTION_GITFLOW, SUBSECTION_PREFIX,
                                                                                  KEY_VERSIONTAG
         grgit.close()
+
+        LOGGER.info "Extracted tag prefix from Gitflow plugin config: $gitflowTagPrefix"
 
         gitflowTagPrefix
     }

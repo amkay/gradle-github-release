@@ -32,7 +32,8 @@ import java.nio.file.Files
  */
 class ReleaseTask extends DefaultTask {
 
-    static final         String NAME   = 'publishGithubRelease'
+    static final String NAME = 'publishGithubRelease'
+
     private static final Logger LOGGER = Logging.getLogger ReleaseTask
 
 
@@ -41,10 +42,14 @@ class ReleaseTask extends DefaultTask {
         def extension = project.extensions[ GithubReleaseExtension.NAME ] as GithubReleaseExtension
 
         def github = GitHub.connectUsingOAuth extension.apiKey
+
+        LOGGER.info "Connecting to GitHub repository \"${extension.repository}\""
         def repository = github.getRepository extension.repository
 
         def releases = repository.listReleases()
         def release = releases.find { it.tagName == "${extension.tagPrefix}${project.version}".toString() } as GHRelease
+
+        LOGGER.lifecycle "Found release matching project's version: ${release.tagName}"
 
         extension.workingDir.eachFile { file ->
             LOGGER.lifecycle "Uploading ${file.name} to GitHub"
